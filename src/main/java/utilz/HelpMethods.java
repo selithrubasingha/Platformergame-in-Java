@@ -1,0 +1,36 @@
+package utilz;
+
+import main.Game;
+
+import static main.Game.*;
+import static main.Game.TILES_SIZE;
+
+public class HelpMethods {
+
+
+
+
+    private static boolean IsSolid(float x, float y, int[][] lvlData) {
+        if (x < 0 || x >= Game.GAME_WIDTH)
+            return true;
+        if (y < 0 || y >= Game.GAME_HEIGHT)
+            return true;
+
+        float xIndex = x / Game.TILES_SIZE;
+        float yIndex = y / Game.TILES_SIZE;
+
+        int value = lvlData[(int) yIndex][(int) xIndex];
+
+        if (value!=0) return true;
+        return false;
+    }
+
+    public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
+        if (!IsSolid(x, y, lvlData))
+            if (!IsSolid(x + width, y + height, lvlData))
+                if (!IsSolid(x + width, y, lvlData))
+                    if (!IsSolid(x, y + height, lvlData))
+                        return true;
+        return false;
+    }
+}

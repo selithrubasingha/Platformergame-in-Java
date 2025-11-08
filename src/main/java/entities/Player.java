@@ -4,6 +4,7 @@ import levels.LevelManager;
 import main.Game;
 import utilz.LoadSave;
 
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,7 @@ import static main.Game.TILES_SIZE;
 import static utilz.Constants.Directions.*;
 import static utilz.Constants.Directions.RIGHT;
 import static utilz.Constants.PlayerConstants.*;
+import static utilz.HelpMethods.CanMoveHere;
 
 public class Player extends Entity {
 
@@ -24,8 +26,10 @@ public class Player extends Entity {
     private int playerAction = IDLE;
     private boolean moving = false, attacking = false;
     private boolean up, down, left, right;
+    private float playerSpeed = 2.0f;
 
     private LevelManager levelManager;
+    private int[][] lvlData;
 
 
 
@@ -54,6 +58,9 @@ public class Player extends Entity {
 
 
     }
+    public void loadLvlData(int[][] lvlData) {
+        this.lvlData = lvlData;
+    }
 
     public void render(Graphics g){
         g.drawImage(animations[playerAction][aniIndex], (int) (x), (int) (y ), width, height, null);
@@ -62,32 +69,27 @@ public class Player extends Entity {
 
     private void updatePos() {
         moving = false;
-        float nextX = x;
-        float nextY = y;
+        if (!left && !right && !up && !down)
+            return;
 
-        if (left && !right) {
-            nextX -= 2;
-            moving = true;
-        } else if (right && !left) {
-            nextX += 2;
-            moving = true;
-        }
-        if (up && !down) {
-            nextY -= 2;
-            moving = true;
-        } else if (down && !up) {
-            nextY += 2;
-            moving = true;
-        }
-        if (canMoveHere(nextX, y, width, height)) {
-            x = nextX;
-        }
+        float xSpeed = 0, ySpeed = 0;
 
-        // 2. Check Y-axis movement (using the potentially updated X)
-        if (canMoveHere(x, nextY, width, height)) {
-            y = nextY;
-        }
-    }
+        if (left && !right)
+            xSpeed = -playerSpeed;
+        else if (right && !left)
+            xSpeed = playerSpeed;
+
+        if (up && !down)
+            ySpeed = -playerSpeed;
+        else if (down && !up)
+            ySpeed = playerSpeed;
+
+		if (CanMoveHere(x + xSpeed, y + ySpeed, width, height, lvlData)) {
+			this.x += xSpeed;
+			this.y += ySpeed;
+			moving = true;
+//		}
+    }}
 
     private void setAnimation() {
         int startAni = playerAction;
@@ -120,40 +122,7 @@ public class Player extends Entity {
         }
     }
 
-    // In package entities; Player
 
-    // Checks if the proposed bounding box area is clear of solid tiles
-    private boolean canMoveHere(float x, float y, float width, float height) {
-
-        // Convert the player's four corners from pixel coordinates to tile coordinates (row/col)
-
-        // Top-Left corner's tile coordinates
-        int tileX1 = (int) (x / TILES_SIZE);
-        int tileY1 = (int) (y / TILES_SIZE);
-
-        // Top-Right corner's tile coordinates
-        int tileX2 = (int) ((x + width) / TILES_SIZE);
-        int tileY2 = (int) (y / TILES_SIZE);
-
-        // Bottom-Left corner's tile coordinates
-        int tileX3 = (int) (x / TILES_SIZE);
-        // Use (y + height - 1) to ensure the check is inside the player's final bounding box pixel
-        int tileY3 = (int) ((y + height - 1) / TILES_SIZE);
-
-        // Bottom-Right corner's tile coordinates
-        int tileX4 = (int) ((x + width) / TILES_SIZE);
-        int tileY4 = (int) ((y + height - 1) / TILES_SIZE);
-
-        // Check all four corners against the level data
-        if (levelManager.solid(tileX1, tileY1) > 0 ||
-                levelManager.solid(tileX2, tileY2) > 0 ||
-                levelManager.solid(tileX3, tileY3) > 0 ||
-                levelManager.solid(tileX4, tileY4) > 0) {
-
-            return false; // Collision detected (one of the corners is on a solid tile)
-        }
-        return true; // Safe to move
-    }
 
     public boolean isRight() {
         return right;
