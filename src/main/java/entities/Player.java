@@ -24,7 +24,7 @@ public class Player extends Entity {
 
     private BufferedImage img  ;
     private BufferedImage[][] animations;
-    private int aniSpeed = 10 , aniTick , aniIndex ;
+    private int aniSpeed = 25 , aniTick , aniIndex ;
     private int playerAction = IDLE;
     private boolean moving = false, attacking = false;
     private boolean up,down,jump, left, right;
@@ -40,7 +40,7 @@ public class Player extends Entity {
     private float yDrawOffset = 14 * Game.SCALE;
     private float airSpeed = 0f;
     private float gravity = 0.04f * Game.SCALE;
-    private float jumpSpeed = -2.25f * Game.SCALE;
+    private float jumpSpeed = -3.25f * Game.SCALE;
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
 
@@ -73,6 +73,9 @@ public class Player extends Entity {
     }
     public void loadLvlData(int[][] lvlData) {
         this.lvlData = lvlData;
+
+        if (!IsEntityOnFloor(hitbox, lvlData))
+            inAir = true;
     }
 
     public void render(Graphics g){
@@ -156,6 +159,9 @@ public class Player extends Entity {
             playerAction = RUN;
         else
             playerAction = IDLE;
+
+        if (inAir)
+            playerAction = JUMP;
 
         if (attacking)
             playerAction = ATTACK;
