@@ -30,14 +30,16 @@ public class Player extends Entity {
 
     private LevelManager levelManager;
     private int[][] lvlData;
+    private float xDrawOffset = 23 * Game.SCALE;
+    private float yDrawOffset = 14 * Game.SCALE;
 
 
 
     public Player(float x, float y, int width, int height, LevelManager levelManager) {
         super(x, y,width,height);
         this.levelManager = levelManager;
-
         loadAnimations();
+        initHitbox(x, y, 21 * Game.SCALE, 28 * Game.SCALE);
     }
 
     private void loadAnimations() {
@@ -63,7 +65,7 @@ public class Player extends Entity {
     }
 
     public void render(Graphics g){
-        g.drawImage(animations[playerAction][aniIndex], (int) (x), (int) (y ), width, height, null);
+        g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null);
         drawHitbox(g);
     }
 
@@ -84,12 +86,13 @@ public class Player extends Entity {
         else if (down && !up)
             ySpeed = playerSpeed;
 
-		if (CanMoveHere(x + xSpeed, y + ySpeed, width, height, lvlData)) {
-			this.x += xSpeed;
-			this.y += ySpeed;
-			moving = true;
-//		}
-    }}
+
+            if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData)) {
+                hitbox.x += xSpeed;
+                hitbox.y += ySpeed;
+                moving = true;
+            }
+    }
 
     private void setAnimation() {
         int startAni = playerAction;
