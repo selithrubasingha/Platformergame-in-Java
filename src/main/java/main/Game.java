@@ -1,8 +1,11 @@
 package main;
 
 
-import entities.Player;
-import levels.LevelManager;
+
+import gamestates.GameState;
+import gamestates.*;
+import gamestates.Menu;
+
 
 import java.awt.*;
 
@@ -13,8 +16,9 @@ public class Game implements Runnable{
     private Thread gameThread;
     private final int FPS_SET = 120;
     private final int UPS_SET = 170;
-    private Player player;
-    private LevelManager levelManager;
+    private Playing playing;
+    private Menu menu;
+
 
 
     public final static int TILES_DEFAULT_SIZE = 32;
@@ -37,9 +41,9 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
-        levelManager = new LevelManager(this);
-        this.player = new Player(200,200, (int) (78 * SCALE), (int) (58 * SCALE),levelManager);
-        player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+        menu = new Menu(this);
+        playing = new Playing(this);
+
     }
 
     private void startGameLoop() {
@@ -48,14 +52,31 @@ public class Game implements Runnable{
     }
 
     public void update() {
-        levelManager.update();
-        player.update();
+
+
+        switch (GameState.state){
+            case PLAYING:
+                playing.update();
+
+                break;
+            case MENU:
+                menu.update();
+                break;
+
+        }
     }
 
     public void render(Graphics g) {
-        levelManager.draw(g);
-        player.render(g);
-    }
+    switch (GameState.state){
+        case PLAYING:
+            playing.draw(g);
+
+            break;
+        case MENU:
+            menu.draw(g);
+            break;
+
+    }}
 
     @Override
     public void run() {
@@ -102,12 +123,19 @@ public class Game implements Runnable{
 
 
 }
-    public Player getPlayer() {
-        return player;
-    }
-
 
     public void windowFocusLost() {
-        player.resetDirBooleans();
+        if (GameState.state == GameState.PLAYING)  {
+            playing.windowFocusLost();
+        }
+    }
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public Playing getPlaying() {
+        return playing;
     }
 }
+
+
