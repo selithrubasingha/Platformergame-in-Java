@@ -13,6 +13,7 @@ public class LoadSave {
 
     public static final String PLAYER_ATLAS = "player_sprites.png";
     public static final String LEVEL_ATLAS = "map.png";
+    public static final String MENU_BUTTONS = "button_atlas.png";
     // New constant for the TMX file name
     public static final String TMX_LEVEL = "supermap.tmx";
 
