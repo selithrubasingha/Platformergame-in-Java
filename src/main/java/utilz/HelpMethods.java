@@ -13,13 +13,16 @@ public class HelpMethods {
 
 
     private static boolean IsSolid(float x, float y, int[][] lvlData) {
-        if (x < 0 || x >= Game.GAME_WIDTH)
+        if (x < 0 || x >= ACTUAL_GAME_WIDTH)
             return true;
         if (y < 0 || y >= Game.GAME_HEIGHT)
             return true;
 
         float xIndex = x / Game.TILES_SIZE;
         float yIndex = y / Game.TILES_SIZE;
+
+        if (xIndex >= lvlData[0].length || yIndex >= lvlData.length)
+            return true;
 
         int value = lvlData[(int) yIndex][(int) xIndex];
 

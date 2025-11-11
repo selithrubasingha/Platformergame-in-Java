@@ -25,14 +25,14 @@ public class LevelManager {
         levelOne = new Level(LoadSave.GetLevelDataFromTMX(
                 LoadSave.TMX_LEVEL,
                 COLLISION_LAYER_NAME,
-                TILES_IN_WIDTH,
+                TILES_IN_WIDTH+20,
                 TILES_IN_HEIGHT
         ));
 
     }
 
-    public void draw(Graphics g){
-        g.drawImage(levelSprites,0,0,    (int) (levelSprites.getWidth() * SCALE),
+    public void draw(Graphics g, int xLvlOffset){
+        g.drawImage(levelSprites,0-xLvlOffset,0,    (int) (levelSprites.getWidth() * SCALE),
                 (int) (levelSprites.getHeight() * SCALE),null);
     }
 

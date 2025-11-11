@@ -12,15 +12,17 @@ import org.w3c.dom.NodeList;
 public class LoadSave {
 
     public static final String PLAYER_ATLAS = "player_sprites.png";
-    public static final String LEVEL_ATLAS = "map.png";
+    public static final String LEVEL_ATLAS = "extendedsupermap.png";
     public static final String MENU_BUTTONS = "button_atlas.png";
     public static final String MENU_BACKGROUND = "menu_background.png";
     public static final String PAUSE_BACKGROUND = "pause_menu.png";
     public static final String SOUND_BUTTONS = "sound_button.png";
     public static final String URM_BUTTONS = "urm_buttons.png";
     public static final String VOLUME_BUTTONS = "volume_buttons.png";
+    public static final String MENU_BACKGROUND_IMG = "menu_background_green.jpeg";
+
     // New constant for the TMX file name
-    public static final String TMX_LEVEL = "supermap.tmx";
+    public static final String TMX_LEVEL = "extendedsupermap.tmx";
 
     // Existing method to load PNG/Image files
     public static BufferedImage GetSpriteAtlas(String fileName){
@@ -97,6 +99,9 @@ public class LoadSave {
             System.err.println("Error loading TMX file: " + e.getMessage());
             e.printStackTrace();
         }
+
+
+
         return levelData;
     }
 }
