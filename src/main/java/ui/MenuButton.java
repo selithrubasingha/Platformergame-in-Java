@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static utilz.Constants.UI.*;
+import static utilz.Constants.UI.Buttons.*;
 
 public class MenuButton {
 
