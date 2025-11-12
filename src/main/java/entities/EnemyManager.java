@@ -38,7 +38,8 @@ public class EnemyManager {
     private void drawPigs(Graphics g, int xLvlOffset) {
         for (Pig c : pigs){
             g.drawImage(pigArr[c.getEnemyState()][c.getAniIndex()], (int) c.getHitbox().x - xLvlOffset-PIG_DRAWOFFSET_X, (int) c.getHitbox().y-PIG_DRAWOFFSET_Y, PIG_WIDTH, PIG_HEIGHT, null);
-            c.drawHitbox(g, xLvlOffset);}
+//            c.drawHitbox(g, xLvlOffset);
+        }
 
 
     }
