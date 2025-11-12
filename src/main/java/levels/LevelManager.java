@@ -27,7 +27,9 @@ public class LevelManager {
                 COLLISION_LAYER_NAME,
                 TILES_IN_WIDTH+20,
                 TILES_IN_HEIGHT
-        ));
+        ))
+
+        ;
 
     }
 

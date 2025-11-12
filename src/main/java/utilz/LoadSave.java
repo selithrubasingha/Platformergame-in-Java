@@ -4,10 +4,14 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import entities.Pig;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
 
 public class LoadSave {
 
@@ -20,9 +24,10 @@ public class LoadSave {
     public static final String URM_BUTTONS = "urm_buttons.png";
     public static final String VOLUME_BUTTONS = "volume_buttons.png";
     public static final String MENU_BACKGROUND_IMG = "menu_background_green.jpeg";
+    public static final String PIG_SPRITE = "pig.png";
 
     // New constant for the TMX file name
-    public static final String TMX_LEVEL = "extendedsupermap.tmx";
+    public static final String TMX_LEVEL = "supermap2.tmx";
 
     // Existing method to load PNG/Image files
     public static BufferedImage GetSpriteAtlas(String fileName){
@@ -103,6 +108,80 @@ public class LoadSave {
 
 
         return levelData;
+    }
+
+    public static ArrayList<Float> GetPigSpawnsFromTMX(String fileName, String objectLayerName) {
+        // We'll return an ArrayList of Floats: [x1, y1, x2, y2, ...]
+        ArrayList<Float> pigSpawnCoords = new ArrayList<>();
+
+        try (InputStream is = LoadSave.class.getResourceAsStream("/" + fileName)) {
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(is);
+            doc.getDocumentElement().normalize();
+
+            // 1. Find all <objectgroup> tags
+            NodeList objectGroupNodes = doc.getElementsByTagName("objectgroup");
+
+            for (int i = 0; i < objectGroupNodes.getLength(); i++) {
+
+                Element groupElement = (Element) objectGroupNodes.item(i);
+                String groupName = groupElement.getAttribute("name");
+
+                // 2. Check if this is the target "Spawns" layer
+                if (groupName.equals(objectLayerName)) {
+
+                    // 3. Get all <object> nodes within this group
+                    NodeList objectNodes = groupElement.getElementsByTagName("object");
+
+                    for (int j = 0; j < objectNodes.getLength(); j++) {
+                        Element objectElement = (Element) objectNodes.item(j);
+
+                        // 4. Filter objects by name="pig" (as set in your TMX)
+                        String objectName = objectElement.getAttribute("name");
+
+                        if (objectName.equals("pig")) {
+
+                            // 5. Extract x and y coordinates
+                            // TMX stores coordinates as attributes in the <object> tag
+                            float x = Float.parseFloat(objectElement.getAttribute("x"));
+                            float y = Float.parseFloat(objectElement.getAttribute("y"));
+
+                            // Store the coordinates
+                            pigSpawnCoords.add(x);
+                            pigSpawnCoords.add(y);
+                        }
+                    }
+                    break; // Spawns layer found, exit the object group loop
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error loading Pig Spawns from TMX file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return pigSpawnCoords;
+    }
+
+    // The placeholder function can now be removed or updated to use the new method
+    // If you need a list of actual Pig objects, you'd process the coordinates here.
+    // For simplicity, I've made the extractor the main public method.
+    public static ArrayList<Float> GetPigSpawns() {
+        // Use the new, robust method
+        return GetPigSpawnsFromTMX(TMX_LEVEL, "Spawns");
+    }
+
+    public static ArrayList<Pig> GetPigs() {
+        ArrayList<Pig> pigs = new ArrayList<>();
+        ArrayList<Float> spawnCoords = GetPigSpawnsFromTMX(TMX_LEVEL, "Spawns");
+        for (int i=0 ; i< spawnCoords.size();i++){
+            float x = spawnCoords.get(i++);
+            float y = spawnCoords.get(i);
+            pigs.add(new Pig(x, y));
+        }
+        return pigs;
     }
 }
 

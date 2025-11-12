@@ -4,6 +4,67 @@ import main.Game;
 
 public class Constants {
 
+    public static class EnemyConstants {
+
+        public static final int PIG = 0;
+
+        // Animation States and their integer identifiers (Indices 0-7 from your image)
+        public static final int ATTACK = 0;
+        public static final int DEAD = 1;
+        public static final int FALL = 2;
+        public static final int GROUND = 3;
+        public static final int HIT = 4;
+        public static final int IDLE = 5;
+        public static final int JUMP = 6;
+        public static final int RUN = 7;
+
+        // Assuming a standard TILE_SIZE for sprite manipulation
+        public static final int PIG_WIDTH_DEFAULT = 34; // Example width
+        public static final int PIG_HEIGHT_DEFAULT = 28;
+        public static final int PIG_WIDTH = (int) (PIG_WIDTH_DEFAULT * Game.SCALE);
+        public static final int PIG_HEIGHT = (int) (PIG_HEIGHT_DEFAULT * Game.SCALE);
+
+        // --- Frame Counts based on the provided image data ---
+
+        // Method to return the number of sprite frames for a given action
+        public static int GetSpriteAmount(int enemy_type, int enemy_state) {
+
+            switch (enemy_type) {
+                case PIG:
+                    switch (enemy_state) {
+                        case IDLE:
+                            // Index 5: IDLE (11 frames)
+                            return 11;
+                        case RUN:
+                            // Index 7: RUN (6 frames)
+                            return 6;
+                        case ATTACK:
+                            // Index 0: ATTACK (5 frames)
+                            return 5;
+                        case DEAD:
+                            // Index 1: DEAD (4 frames)
+                            return 4;
+                        case HIT:
+                            // Index 4: HIT (2 frames)
+                            return 2;
+                        case FALL:
+                        case GROUND:
+                        case JUMP:
+                            // Indices 2, 3, 6: FALL, GROUND, JUMP (1 frame each)
+                            return 1;
+                        default:
+                            // Safety fallback
+                            return 1;
+                    }
+
+
+            }
+            return 0;
+        }
+
+
+    }
+
     public static class UI {
         public static class Buttons {
             public static final int B_WIDTH_DEFAULT = 140;
