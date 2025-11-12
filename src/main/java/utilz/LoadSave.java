@@ -26,6 +26,7 @@ public class LoadSave {
     public static final String VOLUME_BUTTONS = "volume_buttons.png";
     public static final String MENU_BACKGROUND_IMG = "menu_background_green.jpeg";
     public static final String PIG_SPRITE = "pig.png";
+    public static final String STATUS_BAR = "health_power_bar.png";
 
     // New constant for the TMX file name
     public static final String TMX_LEVEL = "supermap2.tmx";
