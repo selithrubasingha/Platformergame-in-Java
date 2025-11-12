@@ -9,6 +9,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import entities.Pig;
+import main.Game;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Element;
@@ -149,8 +150,8 @@ public class LoadSave {
                             float y = Float.parseFloat(objectElement.getAttribute("y"));
 
                             // Store the coordinates
-                            pigSpawnCoords.add(x);
-                            pigSpawnCoords.add(y);
+                            pigSpawnCoords.add(x* Game.SCALE);
+                            pigSpawnCoords.add(y* Game.SCALE);
                         }
                     }
                     break; // Spawns layer found, exit the object group loop
