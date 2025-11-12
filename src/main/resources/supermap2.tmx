@@ -46,13 +46,13 @@
   <object id="2" gid="293" x="1394.65" y="380.941" width="46" height="56"/>
  </objectgroup>
  <objectgroup id="15" name="Spawns">
-  <object id="6" name="pig" x="941.667" y="344.444">
+  <object id="6" name="pig" x="941.667" y="314.444">
    <point/>
   </object>
-  <object id="7" name="pig" x="623.611" y="283.333">
+  <object id="7" name="pig" x="623.611" y="253.333">
    <point/>
   </object>
-  <object id="9" name="pig" x="1062.5" y="119.444">
+  <object id="9" name="pig" x="1062.5" y="89.444">
    <point/>
   </object>
  </objectgroup>

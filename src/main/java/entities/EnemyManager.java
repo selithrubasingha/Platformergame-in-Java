@@ -26,9 +26,9 @@ public class EnemyManager {
         System.out.println("size of crabs: " + pigs.size());
     }
 
-    public void update() {
+    public void update(int[][] lvlData) {
         for (Pig c : pigs)
-            c.update();
+            c.update(lvlData);
     }
 
     public void draw(Graphics g, int xLvlOffset) {
@@ -36,8 +36,10 @@ public class EnemyManager {
     }
 
     private void drawPigs(Graphics g, int xLvlOffset) {
-        for (Pig c : pigs)
-            g.drawImage(pigArr[c.getEnemyState()][c.getAniIndex()], (int) c.getHitbox().x - xLvlOffset, (int) c.getHitbox().y, PIG_WIDTH, PIG_HEIGHT, null);
+        for (Pig c : pigs){
+            g.drawImage(pigArr[c.getEnemyState()][c.getAniIndex()], (int) c.getHitbox().x - xLvlOffset-PIG_DRAWOFFSET_X, (int) c.getHitbox().y-PIG_DRAWOFFSET_Y, PIG_WIDTH, PIG_HEIGHT, null);
+            c.drawHitbox(g, xLvlOffset);}
+
 
     }
 
