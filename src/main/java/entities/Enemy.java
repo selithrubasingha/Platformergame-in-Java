@@ -23,12 +23,16 @@ public abstract class Enemy extends Entity {
     protected int tileY;
     protected float attackDistance = Game.TILES_SIZE;
 
+
+
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);
         this.enemyType = enemyType;
         initHitbox(x, y, width, height);
 
+
     }
+
 
     protected void firstUpdateCheck(int[][] lvlData) {
         if (!IsEntityOnFloor(hitbox, lvlData))

@@ -24,7 +24,7 @@ public class Constants {
         public static final int PIG_WIDTH = (int) (PIG_WIDTH_DEFAULT * Game.SCALE);
         public static final int PIG_HEIGHT = (int) (PIG_HEIGHT_DEFAULT * Game.SCALE);
 
-        public static final int PIG_DRAWOFFSET_X = (int) (15 * Game.SCALE);
+        public static int PIG_DRAWOFFSET_X = (int) (15 * Game.SCALE);
         public static final int PIG_DRAWOFFSET_Y = (int) (13 * Game.SCALE);
 
 
