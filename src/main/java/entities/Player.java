@@ -51,7 +51,7 @@ public class Player extends Entity {
     private int healthBarXStart = (int) (34 * Game.SCALE);
     private int healthBarYStart = (int) (14 * Game.SCALE);
 
-    private int maxHealth = 10;
+    private int maxHealth = 100;
     private int currentHealth = maxHealth;
     private int healthWidth = healthBarWidth;
 
@@ -64,12 +64,14 @@ public class Player extends Entity {
     private boolean attackChecked;
     private Playing playing;
 
+
     
 
 
 
-    public Player(float x, float y, int width, int height, LevelManager levelManager) {
+    public Player(float x, float y, int width, int height, LevelManager levelManager, Playing playing) {
         super(x, y,width,height);
+        this.playing = playing;
         this.levelManager = levelManager;
         loadAnimations();
         initHitbox(x, y, (int)21 * Game.SCALE, (int)28 * Game.SCALE);
@@ -94,13 +96,29 @@ public class Player extends Entity {
     }
 
     public void update() {
+        if (currentHealth <= 0) {
+            playing.setGameOver(true);
+            return;
+        }
+
         updateHealthBar();
         updateAttackBox();
         
+
+        updatePos();
+        if (attacking)
+            checkAttack();
         updateAnimationTick();
         setAnimation();
-        updatePos();
 
+
+    }
+
+    private void checkAttack() {
+        if (attackChecked || aniIndex != 1)
+            return;
+        attackChecked = true;
+        playing.checkEnemyHit(attackBox);
 
     }
 
@@ -250,9 +268,14 @@ public class Player extends Entity {
         if (inAir)
             playerAction = JUMP;
 
-        if (attacking)
+        if (attacking) {
             playerAction = ATTACK;
-
+            if (startAni != ATTACK) {
+                aniIndex = 0;
+                aniTick = 0;
+                return;
+            }
+        }
         if (startAni != playerAction)
             resetAniTick();
     }
@@ -269,7 +292,9 @@ public class Player extends Entity {
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(playerAction)){
                 attacking = false;
-                aniIndex=0;}
+                attackChecked = false;
+                aniIndex=0;
+            }
         }
     }
 

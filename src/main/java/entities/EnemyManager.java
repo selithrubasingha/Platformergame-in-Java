@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -28,7 +29,8 @@ public class EnemyManager {
 
     public void update(int[][] lvlData,Player player) {
         for (Pig c : pigs)
-            c.update(lvlData,player);
+            if (c.isActive())
+                c.update(lvlData,player);
     }
 
     public void draw(Graphics g, int xLvlOffset) {
@@ -37,12 +39,18 @@ public class EnemyManager {
 
     private void drawPigs(Graphics g, int xLvlOffset) {
         for (Pig c : pigs){
-            g.drawImage(pigArr[c.getEnemyState()][c.getAniIndex()],
-                    (int) c.getHitbox().x - xLvlOffset-PIG_DRAWOFFSET_X+c.flipX(),
-                    (int) c.getHitbox().y-PIG_DRAWOFFSET_Y,
-                    PIG_WIDTH*c.flipW(),
-                    PIG_HEIGHT,
-                    null);
+            if (c.active){
+                g.drawImage(pigArr[c.getEnemyState()][c.getAniIndex()],
+                        (int) c.getHitbox().x - xLvlOffset-PIG_DRAWOFFSET_X+c.flipX(),
+                        (int) c.getHitbox().y-PIG_DRAWOFFSET_Y,
+                        PIG_WIDTH*c.flipW(),
+                        PIG_HEIGHT,
+                        null);
+                c.drawHitbox(g, xLvlOffset);
+                c.drawAttackBox(g, xLvlOffset);
+
+            }
+
             c.drawHitbox(g, xLvlOffset);
             c.drawAttackBox(g, xLvlOffset);
         }
@@ -50,6 +58,15 @@ public class EnemyManager {
 
     }
 
+
+    public void checkEnemyHit(Rectangle2D.Float attackBox) {
+        for (Pig c : pigs)
+            if (c.isActive())
+                if (attackBox.intersects(c.getHitbox())) {
+                    c.hurt(10);
+                    return;
+                }
+    }
     private void loadEnemyImgs() {
         pigArr = new BufferedImage[8][11];
         BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.PIG_SPRITE);
