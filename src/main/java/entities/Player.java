@@ -138,7 +138,7 @@ public class Player extends Entity {
     }
 
     private void drawAttackBox(Graphics g, int xLvlOffset) {
-        g.setColor(Color.red);
+        g.setColor(Color.blue);
         g.drawRect((int) attackBox.x - xLvlOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
@@ -146,6 +146,7 @@ public class Player extends Entity {
         g.drawImage(statusBarImg, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
         g.setColor(Color.red);
         g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
+        //healthBarXStart :  the offset from image to the actual bar
 
     }
 
@@ -231,6 +232,7 @@ public class Player extends Entity {
 
         if (currentHealth <= 0)
             currentHealth = 0;
+            //gaem over
         else if (currentHealth >= maxHealth)
             currentHealth = maxHealth;
     }

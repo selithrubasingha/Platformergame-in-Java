@@ -26,14 +26,14 @@ public class Pig extends Enemy {
     public void drawAttackBox(Graphics g, int xLvlOffset) {
         // For debugging the attack box
 
-        g.setColor(Color.RED);
+        g.setColor(Color.green);
         g.drawRect((int) attackBox.x - xLvlOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
 
     }
 
 
     private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(x, y, (int) (22 * Game.SCALE), (int) (19 * Game.SCALE));
+        attackBox = new Rectangle2D.Float(x, y, (int) (15 * Game.SCALE), (int) (19 * Game.SCALE));
 //        attackBoxOffsetX = (int) (Game.SCALE * 30);
     }
 
@@ -70,8 +70,13 @@ public class Pig extends Enemy {
 
     private void updateAttackBox() {
 
-        attackBox.x = hitbox.x;
-        attackBox.y = hitbox.y ;
+        if (walkDir == RIGHT)
+            attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 1);
+        else if (walkDir == LEFT)
+            attackBox.x = hitbox.x - hitbox.width + (int) (Game.SCALE * 5);
+
+        attackBox.y = hitbox.y + (Game.SCALE * 10)-20;
+
     }
 
     public int flipX() {
