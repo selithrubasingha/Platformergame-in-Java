@@ -195,6 +195,10 @@ public class Playing extends State implements Statemethods {
     public void resetAll() {
 
         //to do reset player , enemy lvl etc.
+        gameOver = false;
+        paused = false;
+        player.resetAll();
+        enemyManager.resetAllEnemies();
     }
 
     public void checkEnemyHit(Rectangle2D.Float attackBox) {

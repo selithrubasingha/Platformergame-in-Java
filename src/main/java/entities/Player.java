@@ -79,7 +79,7 @@ public class Player extends Entity {
     }
 
     private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(x, y, (int) (20 * Game.SCALE), (int) (40 * Game.SCALE));
+        attackBox = new Rectangle2D.Float(x, y, (int) (27 * Game.SCALE), (int) (40 * Game.SCALE));
     }
 
     private void loadAnimations() {
@@ -96,12 +96,13 @@ public class Player extends Entity {
     }
 
     public void update() {
+        updateHealthBar();
         if (currentHealth <= 0) {
             playing.setGameOver(true);
             return;
         }
 
-        updateHealthBar();
+
         updateAttackBox();
         
 
@@ -126,7 +127,7 @@ public class Player extends Entity {
         if (right)
             attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 10);
         else if (left)
-            attackBox.x = hitbox.x - hitbox.width - (int) (Game.SCALE * 10);
+            attackBox.x = hitbox.x - hitbox.width - (int) (Game.SCALE * 18);
 
         attackBox.y = hitbox.y + (Game.SCALE * 10)-20;
     }
@@ -341,5 +342,20 @@ public class Player extends Entity {
 
     public void setAttacking(boolean attacking) {
         this.attacking = attacking;
+    }
+
+    public void resetAll() {
+        resetDirBooleans();
+        inAir = false;
+        attacking = false;
+        moving = false;
+        playerAction = IDLE;
+        currentHealth = maxHealth;
+
+        hitbox.x = x;
+        hitbox.y = y;
+
+        if (!IsEntityOnFloor(hitbox, lvlData))
+            inAir = true;
     }
 }

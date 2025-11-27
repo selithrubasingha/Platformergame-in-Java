@@ -74,4 +74,9 @@ public class EnemyManager {
             for (int i = 0; i < pigArr[j].length; i++)
                 pigArr[j][i] = temp.getSubimage(i * PIG_WIDTH_DEFAULT, j * PIG_HEIGHT_DEFAULT, PIG_WIDTH_DEFAULT, PIG_HEIGHT_DEFAULT);
     }
+
+    public void resetAllEnemies() {
+        for (Pig c : pigs)
+            c.resetEnemy();
+    }
 }

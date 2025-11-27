@@ -21,7 +21,7 @@ public abstract class Enemy extends Entity {
     protected float walkSpeed = 0.35f * Game.SCALE;
     protected int walkDir = LEFT;
     protected int tileY;
-    protected float attackDistance = Game.TILES_SIZE;
+    protected float attackDistance = (float)(Game.TILES_SIZE * 0.5);
 
     protected int maxHealth;
     protected int currentHealth;
@@ -161,5 +161,15 @@ public abstract class Enemy extends Entity {
 
     public boolean isActive(){
         return active;
+    }
+
+    public void resetEnemy() {
+        hitbox.x = x;
+        hitbox.y = y;
+        firstUpdate = true;
+        currentHealth = maxHealth;
+        newState(IDLE);
+        active = true;
+        fallSpeed = 0;
     }
 }
