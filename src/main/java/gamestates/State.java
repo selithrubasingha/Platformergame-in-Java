@@ -14,6 +14,7 @@ public class State {
 
     }
 
+    //this gives if the mouse is hovering over the button area..it's a boolean btw
     public boolean isIn(MouseEvent e , MenuButton mb){
         return  mb.getBounds().contains(e.getX(), e.getY());
     }
