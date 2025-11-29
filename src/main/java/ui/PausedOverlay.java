@@ -18,6 +18,8 @@ import static utilz.Constants.UI.VolumeButtons.VOLUME_HEIGHT;
 
 public class PausedOverlay  {
 
+    //We need the playing state
+    // and also we need to initialize all the buttons !
     private Playing playing;
     private BufferedImage backgroundImg;
     private int bgX, bgY, bgW, bgH;
@@ -27,7 +29,9 @@ public class PausedOverlay  {
 
 
     public PausedOverlay(Playing playing) {
+        //assigning the playing state object
         this.playing = playing;
+        //loading background and button creation
         loadBackground();
         createSoundButtons();
         createUrmButtons();
@@ -44,11 +48,14 @@ public class PausedOverlay  {
 
 
     private void createUrmButtons() {
+        //the 3 buttons are in a row , so the y cooedinate is equal while
+        // the x coordinates are different
         int menuX = (int) (313 * Game.SCALE);
         int replayX = (int) (387 * Game.SCALE);
         int unpauseX = (int) (462 * Game.SCALE);
         int bY = (int) (325 * Game.SCALE);
 
+        //BOOM creating the  buttons ... the row index is given according to the
         menuB = new UrmButton(menuX, bY, URM_SIZE, URM_SIZE, 2);
         replayB = new UrmButton(replayX, bY, URM_SIZE, URM_SIZE, 1);
         unpauseB = new UrmButton(unpauseX, bY, URM_SIZE, URM_SIZE, 0);
@@ -57,15 +64,20 @@ public class PausedOverlay  {
 
 
     private void createSoundButtons() {
+        //the slider button !
         int soundX = (int) (450 * Game.SCALE);
+        //these are the normal buttons the column aligned buttons
         int musicY = (int) (140 * Game.SCALE);
         int sfxY = (int) (186 * Game.SCALE);
+        //button creation!!
         musicButton = new SoundButton(soundX, musicY, SOUND_SIZE, SOUND_SIZE);
         sfxButton = new SoundButton(soundX, sfxY, SOUND_SIZE, SOUND_SIZE);
     }
 
     private void loadBackground() {
+        //the backgroung for the pause menu
         backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PAUSE_BACKGROUND);
+        //the size baby !
         bgW = (int) (backgroundImg.getWidth() * Game.SCALE);
         bgH = (int) (backgroundImg.getHeight() * Game.SCALE);
         bgX = Game.GAME_WIDTH / 2 - bgW / 2;
@@ -73,6 +85,7 @@ public class PausedOverlay  {
     }
 
     public void update() {
+        //Not like plain html .. we need to update all the buttons at 120 fps
         musicButton.update();
         sfxButton.update();
 
@@ -86,6 +99,7 @@ public class PausedOverlay  {
 
 
     public void draw(Graphics g) {
+        //you need to draw too bruh .. but the draw and update logic is in the button classes
         //background
         g.drawImage(backgroundImg, bgX, bgY, bgW, bgH, null);
 
@@ -110,6 +124,7 @@ public class PausedOverlay  {
 
 
     public void mousePressed(MouseEvent e) {
+        //linking the logic to mousepressed ... --> go to button class
         if (isIn(e, musicButton))
             musicButton.setMousePressed(true);
         else if (isIn(e, sfxButton))
@@ -128,27 +143,36 @@ public class PausedOverlay  {
 
 
     public void mouseReleased(MouseEvent e) {
+        //oh my god the actual clickity logic is here! not in the input classes
         if (isIn(e, musicButton)) {
             if (musicButton.isMousePressed()) {
+                //unmute!
                 musicButton.setMuted(!musicButton.isMuted());
             }
+        // before checking any of this you first need to check if isIn ? method
         } else if (isIn(e, sfxButton)) {
             if (sfxButton.isMousePressed()) {
+                //mute!
                 sfxButton.setMuted(!sfxButton.isMuted());
             }
         } else if (isIn(e, menuB)) {
             if (menuB.isMousePressed()) {
+                //go to menu !
                 GameState.state = GameState.MENU;
             }
         } else if (isIn(e, replayB)) {
             if (replayB.isMousePressed()) {
+                //he he replay is not yet implemented
                 System.out.println("Replay");
             }
         } else if (isIn(e, unpauseB)) {
             if (unpauseB.isMousePressed()) {
+                //unpause!
                 playing.unpauseGame();
             }}
 
+        //the resetting is done here...we need to reset everything
+        //consistently to avoid wierd UI glitches
         musicButton.resetBools();
         sfxButton.resetBools();
         menuB.resetBools();
