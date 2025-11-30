@@ -2,8 +2,11 @@ package utilz;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -32,6 +35,8 @@ public class LoadSave {
     // New constant for the TMX file name
     public static final String TMX_LEVEL = "supermap2.tmx";
 
+    public static final String TMX_LEVEL_FOLDER = "/TMXlvls";
+
     // Existing method to load PNG/Image files
     public static BufferedImage GetSpriteAtlas(String fileName){
         BufferedImage img = null;
@@ -49,6 +54,66 @@ public class LoadSave {
             }
         }
         return img;
+    }
+
+    public static BufferedImage[] GetAllLevels() {
+        URL url = LoadSave.class.getResource("/lvls");
+        File file = null;
+
+        try {
+            file = new File(url.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        File[] files = file.listFiles();
+        File[] filesSorted = new File[files.length];
+
+        for (int i = 0; i < filesSorted.length; i++)
+            for (int j = 0; j < files.length; j++) {
+                if (files[j].getName().equals((i + 1) + ".png"))
+                    filesSorted[i] = files[j];
+
+            }
+
+        BufferedImage[] imgs = new BufferedImage[filesSorted.length];
+
+        for (int i = 0; i < imgs.length; i++)
+            try {
+                imgs[i] = ImageIO.read(filesSorted[i]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        return imgs;
+    }
+
+
+    // The levelIndex argument starts at 0 for level 1 (1.tmx)
+    public static File GetTMXLevel(int levelIndex) {
+        // We add 1 to the index to get the filename (0 -> "1", 1 -> "2", etc.)
+        String fileName = (levelIndex + 1) + ".tmx";
+
+        // Construct the full resource path
+        String fullPath = TMX_LEVEL_FOLDER + "/" + fileName;
+
+        // Use the ClassLoader to get the resource URL
+        URL url = LoadSave.class.getResource(fullPath);
+
+        if (url == null) {
+            System.err.println("Error: TMX file not found at path: " + fullPath);
+            return null;
+        }
+
+        File tmxFile = null;
+        try {
+            // Convert the URL to a File object using URI (necessary for files in jar/resource folders)
+            tmxFile = new File(url.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return tmxFile;
     }
 
     // NEW method to load collision data from the TMX file
@@ -176,19 +241,6 @@ public class LoadSave {
         return GetPigSpawnsFromTMX(TMX_LEVEL, "Spawns");
     }
 
-    public static ArrayList<Pig> GetPigs() {
-        // assigning an array list
-        ArrayList<Pig> pigs = new ArrayList<>();
-        // boom!!  get the coordinates of the pig spawn places
-        ArrayList<Float> spawnCoords = GetPigSpawnsFromTMX(TMX_LEVEL, "Spawns");
-        // using this for loop we create pigs with the x coordinates provided and boom !
-        // create an Pig object array list
-        for (int i=0 ; i< spawnCoords.size();i++){
-            float x = spawnCoords.get(i++);
-            float y = spawnCoords.get(i);
-            pigs.add(new Pig(x, y));
-        }
-        return pigs;
-    }
+
 }
 

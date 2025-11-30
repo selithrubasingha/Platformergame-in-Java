@@ -82,6 +82,13 @@ public class Player extends Entity {
         attackBox = new Rectangle2D.Float(x, y, (int) (27 * Game.SCALE), (int) (40 * Game.SCALE));
     }
 
+    public void setSpawn(Point spawn) {
+        this.x = spawn.x;
+        this.y = spawn.y;
+        hitbox.x = x;
+        hitbox.y = y;
+    }
+
     private void loadAnimations() {
 
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);

@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import gamestates.Playing;
+import levels.Level;
 import utilz.LoadSave;
 
 import static utilz.Constants.EnemyConstants.*;
@@ -19,19 +20,18 @@ public class EnemyManager {
     public EnemyManager(Playing playing) {
         this.playing = playing;
         loadEnemyImgs();
-        addEnemies();
-    }
 
-    private void addEnemies() {
-
-        pigs = LoadSave.GetPigs();
-        System.out.println("size of crabs: " + pigs.size());
     }
 
     public void update(int[][] lvlData,Player player) {
+        boolean isAnyActive = false;
         for (Pig c : pigs)
-            if (c.isActive())
-                c.update(lvlData,player);
+            if (c.isActive()) {
+                c.update(lvlData, player);
+                isAnyActive = true;
+            }
+        if(!isAnyActive)
+            playing.setLevelCompleted(true);
     }
 
     public void draw(Graphics g, int xLvlOffset) {
@@ -79,5 +79,9 @@ public class EnemyManager {
     public void resetAllEnemies() {
         for (Pig c : pigs)
             c.resetEnemy();
+    }
+
+    public void loadEnemies(Level level,int lvlIndex) {
+        pigs = level.GetPigs(lvlIndex);
     }
 }

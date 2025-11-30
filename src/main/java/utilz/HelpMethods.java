@@ -2,7 +2,9 @@ package utilz;
 
 import main.Game;
 
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import static main.Game.*;
 import static main.Game.TILES_SIZE;
@@ -111,5 +113,8 @@ public class HelpMethods {
 
     }
 
+    public static Point GetPlayerSpawn(BufferedImage img) {
 
+        return new Point(200, 200);
+    }
 }

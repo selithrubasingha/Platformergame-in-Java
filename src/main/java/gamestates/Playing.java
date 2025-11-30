@@ -27,15 +27,24 @@ public class Playing extends State implements Statemethods {
     private int xLvlOffset;
     private int leftBorder = (int) (0.2 * GAME_WIDTH);
     private int rightBorder = (int) (0.8 * GAME_WIDTH);
-    private int lvlTilesWide = ACTUAL_GAME_WIDTH / TILES_SIZE;
-    private int maxTilesOffset = lvlTilesWide - TILES_IN_WIDTH;
-    private int maxLvlOffsetX = maxTilesOffset * TILES_SIZE;
+//    private int lvlTilesWide = ACTUAL_GAME_WIDTH / TILES_SIZE;
+//    private int maxTilesOffset = lvlTilesWide - TILES_IN_WIDTH;
+//    private int maxLvlOffsetX = maxTilesOffset * TILES_SIZE;
+    private int maxLvlOffsetX;
 
     private boolean gameOver ;
+    private boolean lvlCompleted;
 
     public Playing(Game game) {
         super(game);
         initClasses();
+
+        loadStartLevel();
+        calcLvlOffset();
+    }
+
+    private void calcLvlOffset() {
+        maxLvlOffsetX = levelManager.getCurrentLevel().getLvlOffset();
     }
 
     private void initClasses() {
@@ -46,6 +55,16 @@ public class Playing extends State implements Statemethods {
         pausedOverlay = new PausedOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
+    }
+
+    public void loadNextLevel() {
+        resetAll();
+        levelManager.loadNextLevel();
+        player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+    }
+
+    private void loadStartLevel() {
+        enemyManager.loadEnemies(levelManager.getCurrentLevel(),levelManager.getCurrentLevel().getLvlIndex());
     }
 
     public Player getPlayer() {
@@ -59,16 +78,19 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void update() {
-        if (!paused && !gameOver){
-        player.update();
-        enemyManager.update(levelManager.getCurrentLevel().getLevelData(),player);
-        levelManager.update();
-        checkCloseToBorder();
-        }
-        if (paused)
+        if (paused) {
             pausedOverlay.update();
-
+        } else if (lvlCompleted) {
+            levelCompletedOverlay.update();
+        } else if (!gameOver) {
+            levelManager.update();
+            player.update();
+            enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
+            checkCloseToBorder();
+        }
     }
+
+
 
     private void checkCloseToBorder() {
         int playerX = (int) player.getHitbox().x;
@@ -99,7 +121,8 @@ public class Playing extends State implements Statemethods {
         }
         else if (gameOver)
             gameOverOverlay.draw(g);
-        levelCompletedOverlay.draw(g);
+        else if (lvlCompleted)
+            levelCompletedOverlay.draw(g);
     }
 
     @Override
@@ -112,25 +135,36 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!gameOver)
+        if (!gameOver) {
             if (paused)
                 pausedOverlay.mousePressed(e);
-
+            else if (lvlCompleted)
+                levelCompletedOverlay.mousePressed(e);
+        }
     }
+
+
+
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (!gameOver)
+        if (!gameOver) {
             if (paused)
                 pausedOverlay.mouseReleased(e);
+            else if (lvlCompleted)
+                levelCompletedOverlay.mouseReleased(e);
+        }
 
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (!gameOver)
+        if (!gameOver) {
             if (paused)
                 pausedOverlay.mouseMoved(e);
+            else if (lvlCompleted)
+                levelCompletedOverlay.mouseMoved(e);
+        }
 
     }
 
@@ -200,6 +234,7 @@ public class Playing extends State implements Statemethods {
         //to do reset player , enemy lvl etc.
         gameOver = false;
         paused = false;
+        lvlCompleted = false;
         player.resetAll();
         enemyManager.resetAllEnemies();
     }
@@ -210,5 +245,17 @@ public class Playing extends State implements Statemethods {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
+
+    public void setMaxLvlOffset(int lvlOffset) {
+        this.maxLvlOffsetX = lvlOffset;
+    }
+
+    public void setLevelCompleted(boolean levelCompleted) {
+        this.lvlCompleted = levelCompleted;
     }
 }
