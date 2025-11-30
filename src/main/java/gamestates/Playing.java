@@ -5,6 +5,7 @@ import entities.Player;
 import levels.LevelManager;
 import main.Game;
 import ui.GameOverOverlay;
+import ui.LevelCompletedOverlay;
 import ui.PausedOverlay;
 
 import java.awt.*;
@@ -21,6 +22,7 @@ public class Playing extends State implements Statemethods {
     private boolean paused = false;
     private PausedOverlay pausedOverlay;
     private GameOverOverlay gameOverOverlay;
+    private LevelCompletedOverlay levelCompletedOverlay;
 
     private int xLvlOffset;
     private int leftBorder = (int) (0.2 * GAME_WIDTH);
@@ -43,6 +45,7 @@ public class Playing extends State implements Statemethods {
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         pausedOverlay = new PausedOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);
+        levelCompletedOverlay = new LevelCompletedOverlay(this);
     }
 
     public Player getPlayer() {
@@ -96,7 +99,7 @@ public class Playing extends State implements Statemethods {
         }
         else if (gameOver)
             gameOverOverlay.draw(g);
-
+        levelCompletedOverlay.draw(g);
     }
 
     @Override

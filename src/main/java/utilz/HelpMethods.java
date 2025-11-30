@@ -73,6 +73,7 @@ public class HelpMethods {
 
         }
     }
+
     public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData) {
         //check the pixel below bottom left and bottom right corners of hitbox
         if (!IsSolid(hitbox.x, hitbox.y + hitbox.height +1, lvlData))
@@ -82,8 +83,10 @@ public class HelpMethods {
     }
 
     public static boolean IsFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
-        return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
-    }
+        if (xSpeed > 0)
+            return IsSolid(hitbox.x + hitbox.width + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
+        else
+            return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);    }
 
     public static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {
         for (int i = 0; i < xEnd - xStart; i++) {

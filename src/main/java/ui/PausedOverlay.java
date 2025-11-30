@@ -163,7 +163,8 @@ public class PausedOverlay  {
         } else if (isIn(e, replayB)) {
             if (replayB.isMousePressed()) {
                 //he he replay is not yet implemented
-                System.out.println("Replay");
+                playing.resetAll();
+                playing.unpauseGame();
             }
         } else if (isIn(e, unpauseB)) {
             if (unpauseB.isMousePressed()) {

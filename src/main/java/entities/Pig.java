@@ -55,10 +55,11 @@ public class Pig extends Enemy {
                     break;
                 // if bro sees the player , run towards... if bro is close ...ATTACK
                 case RUN:
-                    if (canSeePlayer(lvlData,player))
+                    if (canSeePlayer(lvlData,player)) {
                         turnTowardsPlayer(player);
-                    if (isPlayerCloseForAttack(player))
-                        newState(ATTACK);
+                        if (isPlayerCloseForAttack(player))
+                            newState(ATTACK);
+                    }
 
                     //THE ACTUAL MOVE LOGIC HERE
                     move(lvlData);
