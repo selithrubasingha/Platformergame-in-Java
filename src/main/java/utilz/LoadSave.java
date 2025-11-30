@@ -176,8 +176,12 @@ public class LoadSave {
     }
 
     public static ArrayList<Pig> GetPigs() {
+        // assigning an array list
         ArrayList<Pig> pigs = new ArrayList<>();
+        // boom!!  get the coordinates of the pig spawn places
         ArrayList<Float> spawnCoords = GetPigSpawnsFromTMX(TMX_LEVEL, "Spawns");
+        // using this for loop we create pigs with the x coordinates provided and boom !
+        // create an Pig object array list
         for (int i=0 ; i< spawnCoords.size();i++){
             float x = spawnCoords.get(i++);
             float y = spawnCoords.get(i);

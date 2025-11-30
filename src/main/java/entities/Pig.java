@@ -39,25 +39,31 @@ public class Pig extends Enemy {
 
 
     private void updateBehavior(int[][] lvlData,Player player){
+        //first animation
         if (firstUpdate) {
             firstUpdateCheck(lvlData);
         }
-
+        //"ahasenan ikmanta watiyan" logic
         if (inAir){
             updateInAir(lvlData);
+            //watilanan enemy state check
         } else {
             switch (enemyState) {
+                //if IDLE --> run
                 case IDLE:
                     enemyState = RUN;
                     break;
+                // if bro sees the player , run towards... if bro is close ...ATTACK
                 case RUN:
                     if (canSeePlayer(lvlData,player))
                         turnTowardsPlayer(player);
                     if (isPlayerCloseForAttack(player))
                         newState(ATTACK);
 
+                    //THE ACTUAL MOVE LOGIC HERE
                     move(lvlData);
                     break;
+                //attack logic ...
                 case ATTACK:
                     if (aniIndex == 0)
                         attackChecked = false;

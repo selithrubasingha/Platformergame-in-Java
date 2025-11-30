@@ -23,6 +23,7 @@ public class EnemyManager {
     }
 
     private void addEnemies() {
+
         pigs = LoadSave.GetPigs();
         System.out.println("size of crabs: " + pigs.size());
     }
