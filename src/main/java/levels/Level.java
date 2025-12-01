@@ -2,6 +2,8 @@ package levels;
 
 import entities.Pig;
 import main.Game;
+import objects.GameContainer;
+import objects.ObjectItem;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,13 +12,14 @@ import java.util.ArrayList;
 import static main.Game.*;
 import static main.Game.TILES_SIZE;
 import static utilz.HelpMethods.GetPlayerSpawn;
-import static utilz.LoadSave.GetPigSpawnsFromTMX;
-import static utilz.LoadSave.TMX_LEVEL;
+import static utilz.LoadSave.*;
 
 public class Level {
     private int[][] lvlData;
     private BufferedImage img;
     private ArrayList<Pig> pigs;
+    private ArrayList<ObjectItem> items;
+    private ArrayList<GameContainer> containers;
     private int lvlTilesWide;
     private int maxTilesOffset;
     private int maxLvlOffsetX;
@@ -31,8 +34,23 @@ public class Level {
         this.lvlIndex = lvlIndex;
         this.img = img;
         createEnemies();
+        createObjectItems();
+        createContainers();
         calcLvlOffsets();
         calcPlayerSpawn();
+    }
+
+    private void createContainers() {
+        this.containers = GetContainers(lvlIndex,this);
+        System.out.println(containers.toArray().length);
+
+
+    }
+
+    private void createObjectItems() {
+
+        this.items = GetItems(lvlIndex);
+        System.out.println(items.toArray().length);
     }
 
     private void calcPlayerSpawn() {
@@ -46,7 +64,7 @@ public class Level {
     }
 
     private void createEnemies() {
-        pigs = GetPigs(lvlIndex);
+        this.pigs = GetPigs(lvlIndex);
     }
 
 
@@ -64,6 +82,44 @@ public class Level {
             pigs.add(new Pig(x, y));
         }
         return pigs;
+    }
+
+    public static ArrayList<ObjectItem> GetItems(int lvlIndex) {
+        ArrayList<ObjectItem> items = new ArrayList<>();
+        // Data format: [x1, y1, type1, x2, y2, type2, ...]
+        ArrayList<Float> itemData = GetItemSpawnsFromTMX(
+                "TMXlvls/" + (lvlIndex + 1) + ".tmx",
+                "Items" // Layer name from TMX file
+        );
+
+        // Iterate through the list 3 elements at a time (x, y, type)
+        for (int i = 0; i < itemData.size(); i += 3) {
+            float x = itemData.get(i);
+            float y = itemData.get(i + 1);
+            int type = itemData.get(i + 2).intValue(); // Convert Float to int for type
+
+            items.add(new ObjectItem((int) x, (int) y, type));
+        }
+        return items;
+    }
+
+    public static ArrayList<GameContainer> GetContainers(int lvlIndex,Level level) {
+        ArrayList<GameContainer> containers = new ArrayList<>();
+        // Data format: [x1, y1, type1, x2, y2, type2, ...]
+        ArrayList<Float> containerData = GetContainerSpawnsFromTMX(
+                "TMXlvls/" + (lvlIndex + 1) + ".tmx",
+                "Containers" // Layer name from TMX file
+        );
+
+        // Iterate through the list 3 elements at a time (x, y, type)
+        for (int i = 0; i < containerData.size(); i += 3) {
+            float x = containerData.get(i);
+            float y = containerData.get(i + 1);
+            int type = containerData.get(i + 2).intValue(); // Convert Float to int for type
+
+            containers.add(new GameContainer((int) x, (int) y, type,level));
+        }
+        return containers;
     }
 
     public int getSpriteIndex(int x, int y) {
@@ -88,5 +144,13 @@ public class Level {
 
     public int getLvlIndex() {
         return lvlIndex;
+    }
+
+    public ArrayList<ObjectItem> getItems() {
+        return items;
+    }
+
+    public ArrayList<GameContainer> getContainers() {
+        return containers;
     }
 }

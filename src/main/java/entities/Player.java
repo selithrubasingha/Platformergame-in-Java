@@ -114,6 +114,8 @@ public class Player extends Entity {
         
 
         updatePos();
+        if (moving)
+            checkObjectTouched();
         if (attacking)
             checkAttack();
         updateAnimationTick();
@@ -122,11 +124,16 @@ public class Player extends Entity {
 
     }
 
+    private void checkObjectTouched() {
+        playing.checkObjectTouched(hitbox);
+    }
+
     private void checkAttack() {
         if (attackChecked || aniIndex != 1)
             return;
         attackChecked = true;
         playing.checkEnemyHit(attackBox);
+        playing.checkObjectHit(attackBox);
 
     }
 

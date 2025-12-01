@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="46" height="14" tilewidth="32" tileheight="32" infinite="0" nextlayerid="16" nextobjectid="10">
- <tileset firstgid="1" source="../Terrain (32x32).tsx"/>
- <tileset firstgid="248" name="Decorations (32x32)" tilewidth="32" tileheight="32" tilecount="42" columns="7">
-  <image source="Kings and Pigs/Sprites/14-TileSets/Decorations (32x32).png" width="224" height="192"/>
- </tileset>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="46" height="14" tilewidth="32" tileheight="32" infinite="0" nextlayerid="23" nextobjectid="47">
+ <tileset firstgid="1" source="../../../../../../Terrain (32x32).tsx"/>
+ <tileset firstgid="248" source="../../../../../../Decorations (32x32).tsx"/>
  <tileset firstgid="290" source="../Decorations.tsx"/>
+ <tileset firstgid="294" source="Terrain (32x32).tsx"/>
  <layer id="2" name="BottomLayer" width="46" height="14">
   <data encoding="csv">
 155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,155,
@@ -53,6 +52,67 @@
    <point/>
   </object>
   <object id="9" name="pig" x="1062.5" y="89.444">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="21" name="Items">
+  <object id="22" name="heart" x="174.257" y="220.792">
+   <point/>
+  </object>
+  <object id="23" name="heart" x="206.931" y="220.792">
+   <point/>
+  </object>
+  <object id="24" name="heart" x="240.594" y="221.782">
+   <point/>
+  </object>
+  <object id="25" name="heart" x="271.287" y="220.792">
+   <point/>
+  </object>
+  <object id="26" name="heart" x="301.98" y="221.782">
+   <point/>
+  </object>
+  <object id="27" name="heart" x="1255.45" y="142.574">
+   <point/>
+  </object>
+  <object id="28" name="heart" x="1288.12" y="142.574">
+   <point/>
+  </object>
+  <object id="29" name="heart" x="1321.78" y="143.564">
+   <point/>
+  </object>
+  <object id="30" name="heart" x="1352.48" y="142.574">
+   <point/>
+  </object>
+  <object id="31" name="heart" x="1383.17" y="143.564">
+   <point/>
+  </object>
+  <object id="37" name="diamond" x="426.732" y="108.911">
+   <point/>
+  </object>
+  <object id="38" name="diamond" x="459.406" y="108.911">
+   <point/>
+  </object>
+  <object id="39" name="diamond" x="493.069" y="109.901">
+   <point/>
+  </object>
+  <object id="40" name="diamond" x="523.762" y="108.911">
+   <point/>
+  </object>
+  <object id="41" name="diamond" x="554.455" y="109.901">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="22" name="Containers">
+  <object id="43" name="box" x="428.692" y="322.459">
+   <point/>
+  </object>
+  <object id="44" name="barrel" x="816.96" y="361.944">
+   <point/>
+  </object>
+  <object id="45" name="box" x="1261.63" y="271.693">
+   <point/>
+  </object>
+  <object id="46" name="barrel" x="1264.45" y="365.705">
    <point/>
   </object>
  </objectgroup>

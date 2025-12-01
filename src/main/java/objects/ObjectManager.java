@@ -20,11 +20,11 @@ public class ObjectManager {
     public ObjectManager(Playing playing) {
         this.playing = playing;
         loadImgs();
+//        loadObjects(playing.getLevelManager().getCurrentLevel());
 
         items.add(new ObjectItem(300,300,HEART));
         items.add(new ObjectItem(400,300,DIAMOND));
-        containers.add(new GameContainer(500,300,BARREL));
-        containers.add(new GameContainer(600,300,BOX));
+
     }
 
     public void checkObjectTouched(Rectangle2D.Float hitbox) {
@@ -38,10 +38,10 @@ public class ObjectManager {
     }
 
     public void applyEffectToPlayer(ObjectItem item) { // Accepts ObjectItem
-//        if (item.getObjType() == DIAMOND) // Check for DIAMOND (e.g., score increase)
-//            playing.getPlayer().changeScore(DIAMOND_VALUE); // Assuming changeScore exists
-//        else // Must be HEART (e.g., health increase)
-//            playing.getPlayer().changeHealth(HEART_VALUE);
+        if (item.getObjType() == DIAMOND) // Check for DIAMOND (e.g., score increase)
+            playing.getPlayer().changeHealth(DIAMOND_VALUE); // Assuming changeScore exists
+        else // Must be HEART (e.g., health increase)
+            playing.getPlayer().changeHealth(HEART_VALUE);
     }
 
     public void checkObjectHit(Rectangle2D.Float attackbox) {
@@ -62,8 +62,8 @@ public class ObjectManager {
     }
 
     public void loadObjects(Level newLevel) {
-//        items = newLevel.getItems(); // Assuming Level class has getItems()
-//        containers = newLevel.getContainers();
+        items = newLevel.GetItems(newLevel.getLvlIndex()); // Assuming Level class has getItems()
+        containers = newLevel.GetContainers(newLevel.getLvlIndex(),newLevel);
     }
 
     private void loadImgs() {

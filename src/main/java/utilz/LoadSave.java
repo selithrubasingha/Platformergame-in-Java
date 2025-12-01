@@ -17,6 +17,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Element;
 
+import static utilz.Constants.ObjectConstants.DIAMOND;
+import static utilz.Constants.ObjectConstants.HEART;
+
 public class LoadSave {
 
     public static final String PLAYER_ATLAS = "player_sprites.png";
@@ -241,6 +244,102 @@ public class LoadSave {
     public static ArrayList<Float> GetPigSpawns() {
         // Use the new, robust method
         return GetPigSpawnsFromTMX(TMX_LEVEL, "Spawns");
+    }
+
+    // Inside utilz/LoadSave.java
+
+    public static ArrayList<Float> GetItemSpawnsFromTMX(String fileName, String objectLayerName) {
+        // We'll return an ArrayList of Floats representing [x1, y1, type1, x2, y2, type2, ...]
+        ArrayList<Float> itemData = new ArrayList<>();
+
+        try (InputStream is = LoadSave.class.getResourceAsStream("/" + fileName)) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(is);
+            doc.getDocumentElement().normalize();
+
+            NodeList objectGroupNodes = doc.getElementsByTagName("objectgroup");
+
+            for (int i = 0; i < objectGroupNodes.getLength(); i++) {
+                Element groupElement = (Element) objectGroupNodes.item(i);
+                String groupName = groupElement.getAttribute("name");
+
+                if (groupName.equals(objectLayerName)) { // Target "Items" layer
+                    NodeList objectNodes = groupElement.getElementsByTagName("object");
+
+                    for (int j = 0; j < objectNodes.getLength(); j++) {
+                        Element objectElement = (Element) objectNodes.item(j);
+                        String objectName = objectElement.getAttribute("name");
+
+                        if (objectName.equals("heart") || objectName.equals("diamond")) {
+                            float x = Float.parseFloat(objectElement.getAttribute("x"));
+                            float y = Float.parseFloat(objectElement.getAttribute("y"));
+
+                            // Map the name string to the constant integer type
+                            int objectType = objectName.equals("diamond") ? DIAMOND : HEART;
+
+                            itemData.add(x * Game.SCALE);
+                            itemData.add(y * Game.SCALE);
+                            itemData.add((float) objectType); // Store the object type
+                        }
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading Item Spawns from TMX file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return itemData;
+    }
+
+    // Inside utilz/LoadSave.java
+
+    public static ArrayList<Float> GetContainerSpawnsFromTMX(String fileName, String objectLayerName) {
+        // We'll return an ArrayList of Floats representing [x1, y1, type1, x2, y2, type2, ...]
+        ArrayList<Float> containerData = new ArrayList<>();
+
+        try (InputStream is = LoadSave.class.getResourceAsStream("/" + fileName)) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(is);
+            doc.getDocumentElement().normalize();
+
+            NodeList objectGroupNodes = doc.getElementsByTagName("objectgroup");
+
+            for (int i = 0; i < objectGroupNodes.getLength(); i++) {
+                Element groupElement = (Element) objectGroupNodes.item(i);
+                String groupName = groupElement.getAttribute("name");
+
+                if (groupName.equals(objectLayerName)) { // Target "Containers" layer
+                    NodeList objectNodes = groupElement.getElementsByTagName("object");
+
+                    for (int j = 0; j < objectNodes.getLength(); j++) {
+                        Element objectElement = (Element) objectNodes.item(j);
+                        String objectName = objectElement.getAttribute("name");
+
+                        if (objectName.equals("box") || objectName.equals("barrel")) {
+                            float x = Float.parseFloat(objectElement.getAttribute("x"));
+                            float y = Float.parseFloat(objectElement.getAttribute("y"));
+
+                            // Map the name string to the constant integer type
+                            int objectType = objectName.equals("box") ? Constants.ObjectConstants.BOX : Constants.ObjectConstants.BARREL;
+
+                            containerData.add(x * Game.SCALE);
+                            containerData.add(y * Game.SCALE);
+                            containerData.add((float) objectType);
+                        }
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading Container Spawns from TMX file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return containerData;
     }
 
 

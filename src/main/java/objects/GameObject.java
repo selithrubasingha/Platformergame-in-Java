@@ -17,6 +17,7 @@ public class GameObject {
     protected int aniTick, aniIndex;
     protected int xDrawOffset, yDrawOffset;
 
+
     public GameObject(int x, int y, int objType) {
         this.x = x;
         this.y = y;

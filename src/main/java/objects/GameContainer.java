@@ -1,13 +1,23 @@
 package objects;
 
+import static utilz.Constants.GRAVITY;
 import static utilz.Constants.ObjectConstants.*;
+import static utilz.HelpMethods.CanMoveHere;
+import static utilz.HelpMethods.GetEntityYPosUnderRoofOrAboveFloor;
 
+import levels.Level;
 import main.Game;
 
 public class GameContainer extends GameObject {
 
-    public GameContainer(int x, int y, int objType) {
+    protected float airSpeed=25;
+    protected boolean inAir = false;
+    protected int tileY;
+    protected Level level ;
+
+    public GameContainer(int x, int y, int objType, Level level) {
         super(x, y, objType);
+        this.level = level;
         createHitbox();
     }
 
@@ -31,5 +41,21 @@ public class GameContainer extends GameObject {
     public void update() {
         if (doAnimation)
             updateAnimationTick();
+        updateInAir(level.getLevelData());
+    }
+
+    public void updateInAir(int[][] lvlData) {
+        //the update part when the bro is flying is set into a different method as well
+        //the falling logic is implemented... if he is done falling he goes to running
+        if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
+            hitbox.y += airSpeed;
+            airSpeed += GRAVITY;
+        } else {
+            inAir = false;
+            hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
+            //this is the tile the player is in
+            tileY = (int)(hitbox.y / Game.TILES_SIZE);
+        }
+
     }
 }
