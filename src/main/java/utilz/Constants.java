@@ -7,6 +7,56 @@ public class Constants {
     public static final float GRAVITY = 0.04f * Game.SCALE;
     public static final int ANI_SPEED = 25;
 
+
+    public static class ObjectConstants {
+
+        // --- Object Type Constants (Used by the game logic) ---
+        public static final int DIAMOND = 0;
+        public static final int HEART = 1;
+        public static final int BARREL = 2;
+        public static final int BOX = 3;
+
+        // --- Item Values ---
+        public static final int DIAMOND_VALUE = 15; // Retaining 15 from Red Potion
+        public static final int HEART_VALUE = 10;   // Retaining 10 from Blue Potion
+
+        // --- Container Dimensions (Unchanged) ---
+        public static final int CONTAINER_WIDTH_DEFAULT = 40;
+        public static final int CONTAINER_HEIGHT_DEFAULT = 30;
+        public static final int CONTAINER_WIDTH = (int) (Game.SCALE * CONTAINER_WIDTH_DEFAULT);
+        public static final int CONTAINER_HEIGHT = (int) (Game.SCALE * CONTAINER_HEIGHT_DEFAULT);
+
+        // --- Item Dimensions (Using values from your diagram) ---
+        public static final int ITEM_WIDTH_DEFAULT = 18;
+        public static final int ITEM_HEIGHT_DEFAULT = 14;
+        public static final int ITEM_HIT_FRAMES = 2;
+        public static final int ITEM_WIDTH = (int) (Game.SCALE * ITEM_WIDTH_DEFAULT);
+        public static final int ITEM_HEIGHT = (int) (Game.SCALE * ITEM_HEIGHT_DEFAULT);
+
+        // --- Animation Frame Counts (Using values from your diagram) ---
+
+        // Total sprite amount for drawing the animation, based on the object's current state (IDLE or HIT)
+        public static int GetSpriteAmount(int object_type) {
+            switch (object_type) {
+                case DIAMOND:
+                    return 10; // Idle frames for Diamond
+                case HEART:
+                    return 8;  // Idle frames for Heart
+                case BARREL, BOX:
+                    return 8;  // Hit/Break frames for containers
+            }
+            return 1;
+        }
+
+        // --- Draw Offsets (Used to center the sprite on the hitbox) ---
+        // Note: The diagram gives offsets for the whole sprite sheet structure, but here we adjust the draw offsets.
+        // Based on the diagram's x_offset=5, y_offset=2, we use these for drawing.
+        public static final int DIAMOND_X_DRAW_OFFSET = (int) (5 * Game.SCALE);
+        public static final int DIAMOND_Y_DRAW_OFFSET = (int) (2 * Game.SCALE);
+        public static final int HEART_X_DRAW_OFFSET = (int) (5 * Game.SCALE);
+        public static final int HEART_Y_DRAW_OFFSET = (int) (2 * Game.SCALE);
+    }
+
     public static class EnemyConstants {
 
         public static final int PIG = 0;

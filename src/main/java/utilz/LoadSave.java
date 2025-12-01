@@ -31,6 +31,8 @@ public class LoadSave {
     public static final String PIG_SPRITE = "pig.png";
     public static final String STATUS_BAR = "health_power_bar.png";
     public static final String COMPLETED_IMG = "completed_sprite.png";
+    public static final String ITEM_ATLAS = "items2.png";
+    public static final String CONTAINER_ATLAS = "objects_sprites.png";
 
     // New constant for the TMX file name
     public static final String TMX_LEVEL = "supermap2.tmx";
