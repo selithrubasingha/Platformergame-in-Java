@@ -14,22 +14,15 @@ import static utilz.HelpMethods.*;
 public class Pig extends Enemy {
 
     //attackBox
-    private Rectangle2D.Float attackBox;
     private int attackBoxOffsetX;
 
     public Pig(float x, float y) {
         super(x, y, PIG_WIDTH, PIG_HEIGHT, PIG);
-        initHitbox(x,y,(int)(12* Game.SCALE),(int)(13*Game.SCALE));
+        initHitbox((int)(12),(int)(13));
         initAttackBox();
     }
 
-    public void drawAttackBox(Graphics g, int xLvlOffset) {
-        // For debugging the attack box
 
-        g.setColor(Color.green);
-        g.drawRect((int) attackBox.x - xLvlOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
-
-    }
 
 
     private void initAttackBox() {
