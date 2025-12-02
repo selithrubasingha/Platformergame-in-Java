@@ -2,6 +2,7 @@ package levels;
 
 import entities.Pig;
 import main.Game;
+import objects.Cannon;
 import objects.GameContainer;
 import objects.ObjectItem;
 
@@ -20,6 +21,7 @@ public class Level {
     private ArrayList<Pig> pigs;
     private ArrayList<ObjectItem> items;
     private ArrayList<GameContainer> containers;
+    private ArrayList<Cannon> cannons ;
     private int lvlTilesWide;
     private int maxTilesOffset;
     private int maxLvlOffsetX;
@@ -36,8 +38,13 @@ public class Level {
         createEnemies();
         createObjectItems();
         createContainers();
+        createCannons();
         calcLvlOffsets();
         calcPlayerSpawn();
+    }
+
+    private void createCannons() {
+        this.cannons = GetCannons(lvlIndex);
     }
 
     private void createContainers() {
@@ -122,6 +129,26 @@ public class Level {
         return containers;
     }
 
+    public static ArrayList<Cannon> GetCannons(int lvlIndex) {
+        ArrayList<Cannon> cannons = new ArrayList<>();
+        // Data format: [x1, y1, type1, x2, y2, type2, ...]
+        ArrayList<Float> cannonData = GetCannonSpawnsFromTMX(
+                "TMXlvls/" + (lvlIndex + 1) + ".tmx",
+                "Cannons" // Layer name from TMX file
+        );
+
+        // Iterate through the list 3 elements at a time (x, y, type)
+        for (int i = 0; i < cannonData.size(); i += 3) {
+            float x = cannonData.get(i);
+            float y = cannonData.get(i + 1);
+            int type = cannonData.get(i + 2).intValue(); // Convert Float to int for type
+
+            // Cannon constructor takes (x, y, objType)
+            cannons.add(new Cannon((int) x, (int) y, type));
+        }
+        return cannons;
+    }
+
     public int getSpriteIndex(int x, int y) {
         return lvlData[y][x];
     }
@@ -152,5 +179,9 @@ public class Level {
 
     public ArrayList<GameContainer> getContainers() {
         return containers;
+    }
+
+    public ArrayList<Cannon> getCannons() {
+        return cannons;
     }
 }

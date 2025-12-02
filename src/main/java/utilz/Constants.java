@@ -15,6 +15,8 @@ public class Constants {
         public static final int HEART = 1;
         public static final int BARREL = 2;
         public static final int BOX = 3;
+        public static final int CANNON_LEFT = 4;
+        public static final int CANNON_RIGHT = 5;
 
         // --- Item Values ---
         public static final int DIAMOND_VALUE = 15; // Retaining 15 from Red Potion
@@ -33,6 +35,11 @@ public class Constants {
         public static final int ITEM_WIDTH = (int) (Game.SCALE * ITEM_WIDTH_DEFAULT);
         public static final int ITEM_HEIGHT = (int) (Game.SCALE * ITEM_HEIGHT_DEFAULT);
 
+        public static final int CANNON_WIDTH_DEFAULT = 44;
+        public static final int CANNON_HEIGHT_DEFAULT = 28;
+        public static final int CANNON_WIDTH = (int) (CANNON_WIDTH_DEFAULT * Game.SCALE);
+        public static final int CANNON_HEIGHT = (int) (CANNON_HEIGHT_DEFAULT * Game.SCALE);
+
         // --- Animation Frame Counts (Using values from your diagram) ---
 
         // Total sprite amount for drawing the animation, based on the object's current state (IDLE or HIT)
@@ -44,6 +51,8 @@ public class Constants {
                     return 8;  // Idle frames for Heart
                 case BARREL, BOX:
                     return 8;  // Hit/Break frames for containers
+                case CANNON_LEFT, CANNON_RIGHT:
+                    return 5;
             }
             return 1;
         }

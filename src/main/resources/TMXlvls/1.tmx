@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="46" height="14" tilewidth="32" tileheight="32" infinite="0" nextlayerid="23" nextobjectid="47">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="46" height="14" tilewidth="32" tileheight="32" infinite="0" nextlayerid="25" nextobjectid="55">
  <tileset firstgid="1" source="../../../../../../Terrain (32x32).tsx"/>
  <tileset firstgid="248" source="../../../../../../Decorations (32x32).tsx"/>
  <tileset firstgid="290" source="../Decorations.tsx"/>
@@ -40,11 +40,11 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="3" name="Object Layer 1">
+ <objectgroup id="3" name="Object Layer 1" visible="0">
   <object id="1" gid="293" x="81.2017" y="381.782" width="46" height="56"/>
   <object id="2" gid="293" x="1394.65" y="380.941" width="46" height="56"/>
  </objectgroup>
- <objectgroup id="15" name="Spawns">
+ <objectgroup id="15" name="Spawns" visible="0">
   <object id="6" name="pig" x="941.667" y="314.444">
    <point/>
   </object>
@@ -55,7 +55,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="21" name="Items">
+ <objectgroup id="21" name="Items" visible="0">
   <object id="22" name="heart" x="174.257" y="220.792">
    <point/>
   </object>
@@ -71,38 +71,60 @@
   <object id="26" name="heart" x="301.98" y="221.782">
    <point/>
   </object>
-  <object id="27" name="heart" x="1255.45" y="142.574">
+  <object id="27" name="heart" x="1254.51" y="125.652">
    <point/>
   </object>
-  <object id="28" name="heart" x="1288.12" y="142.574">
+  <object id="28" name="heart" x="1287.18" y="125.652">
    <point/>
   </object>
-  <object id="29" name="heart" x="1321.78" y="143.564">
+  <object id="29" name="heart" x="1320.84" y="126.642">
    <point/>
   </object>
-  <object id="30" name="heart" x="1352.48" y="142.574">
+  <object id="30" name="heart" x="1351.54" y="125.652">
    <point/>
   </object>
-  <object id="31" name="heart" x="1383.17" y="143.564">
+  <object id="31" name="heart" x="1382.23" y="126.642">
    <point/>
   </object>
-  <object id="37" name="diamond" x="426.732" y="108.911">
+  <object id="37" name="diamond" x="428.613" y="94.8093">
    <point/>
   </object>
-  <object id="38" name="diamond" x="459.406" y="108.911">
+  <object id="38" name="diamond" x="461.287" y="94.8093">
    <point/>
   </object>
-  <object id="39" name="diamond" x="493.069" y="109.901">
+  <object id="39" name="diamond" x="494.95" y="95.7993">
    <point/>
   </object>
-  <object id="40" name="diamond" x="523.762" y="108.911">
+  <object id="40" name="diamond" x="525.643" y="94.8093">
    <point/>
   </object>
-  <object id="41" name="diamond" x="554.455" y="109.901">
+  <object id="41" name="diamond" x="556.336" y="95.7993">
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="22" name="Containers">
+ <objectgroup id="23" name="Cannons" visible="0">
+  <object id="47" name="right_cannon" x="628.937" y="89.3109">
+   <point/>
+  </object>
+  <object id="48" name="left_cannon" x="1040.71" y="286.735">
+   <point/>
+  </object>
+  <object id="49" name="left_cannon" x="366.645" y="153.239">
+   <point/>
+  </object>
+  <object id="50" name="right_cannon" x="879.007" y="123.155">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="24" name="Traps">
+  <object id="51" name="bomb" x="1417.69" y="124.095">
+   <point/>
+  </object>
+  <object id="53" name="bomb" x="714.487" y="411.77">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="22" name="Containers" visible="0">
   <object id="43" name="box" x="428.692" y="322.459">
    <point/>
   </object>

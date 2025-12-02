@@ -36,6 +36,7 @@ public class LoadSave {
     public static final String COMPLETED_IMG = "completed_sprite.png";
     public static final String ITEM_ATLAS = "items2.png";
     public static final String CONTAINER_ATLAS = "objects_sprites.png";
+    public static final String CANNON_ATLAS = "cannon_sprites.png";
 
     // New constant for the TMX file name
     public static final String TMX_LEVEL = "supermap2.tmx";
@@ -246,8 +247,6 @@ public class LoadSave {
         return GetPigSpawnsFromTMX(TMX_LEVEL, "Spawns");
     }
 
-    // Inside utilz/LoadSave.java
-
     public static ArrayList<Float> GetItemSpawnsFromTMX(String fileName, String objectLayerName) {
         // We'll return an ArrayList of Floats representing [x1, y1, type1, x2, y2, type2, ...]
         ArrayList<Float> itemData = new ArrayList<>();
@@ -294,8 +293,6 @@ public class LoadSave {
         return itemData;
     }
 
-    // Inside utilz/LoadSave.java
-
     public static ArrayList<Float> GetContainerSpawnsFromTMX(String fileName, String objectLayerName) {
         // We'll return an ArrayList of Floats representing [x1, y1, type1, x2, y2, type2, ...]
         ArrayList<Float> containerData = new ArrayList<>();
@@ -340,6 +337,53 @@ public class LoadSave {
         }
 
         return containerData;
+    }
+
+
+    public static ArrayList<Float> GetCannonSpawnsFromTMX(String fileName, String objectLayerName) {
+        // Returns data as [x1, y1, type1, x2, y2, type2, ...]
+        ArrayList<Float> cannonData = new ArrayList<>();
+
+        try (InputStream is = LoadSave.class.getResourceAsStream("/" + fileName)) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(is);
+            doc.getDocumentElement().normalize();
+
+            NodeList objectGroupNodes = doc.getElementsByTagName("objectgroup");
+
+            for (int i = 0; i < objectGroupNodes.getLength(); i++) {
+                Element groupElement = (Element) objectGroupNodes.item(i);
+                String groupName = groupElement.getAttribute("name");
+
+                if (groupName.equals(objectLayerName)) { // Target "Cannons" layer
+                    NodeList objectNodes = groupElement.getElementsByTagName("object");
+
+                    for (int j = 0; j < objectNodes.getLength(); j++) {
+                        Element objectElement = (Element) objectNodes.item(j);
+                        String objectName = objectElement.getAttribute("name");
+
+                        if (objectName.equals("left_cannon") || objectName.equals("right_cannon")) {
+                            float x = Float.parseFloat(objectElement.getAttribute("x"));
+                            float y = Float.parseFloat(objectElement.getAttribute("y"));
+
+                            // Map the name string to the constant integer type
+                            int objectType = objectName.equals("right_cannon") ? Constants.ObjectConstants.CANNON_RIGHT : Constants.ObjectConstants.CANNON_LEFT;
+
+                            cannonData.add(x * Game.SCALE);
+                            cannonData.add(y * Game.SCALE);
+                            cannonData.add((float) objectType); // Store the cannon type
+                        }
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading Cannon Spawns from TMX file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return cannonData;
     }
 
 
