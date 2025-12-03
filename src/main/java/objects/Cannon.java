@@ -23,4 +23,7 @@ public class Cannon extends GameObject {
         return tileY;
     }
 
+    public int getAniTick() {
+        return aniTick;
+    }
 }

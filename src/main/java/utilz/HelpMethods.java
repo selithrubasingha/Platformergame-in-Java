@@ -1,6 +1,7 @@
 package utilz;
 
 import main.Game;
+import objects.Projectile;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -133,5 +134,10 @@ public class HelpMethods {
             if (IsTileSolid(xStart + i, y, lvlData))
                 return false;
         return true;
+    }
+
+    public static boolean IsProjectileHittingLevel(Projectile p, int[][] lvlData) {
+        return IsSolid(p.getHitbox().x + p.getHitbox().width / 2, p.getHitbox().y + p.getHitbox().height / 2, lvlData);
+
     }
 }

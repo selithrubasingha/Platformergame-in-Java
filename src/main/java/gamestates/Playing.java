@@ -33,6 +33,7 @@ public class Playing extends State implements Statemethods {
 
     private boolean gameOver ;
     private boolean lvlCompleted;
+    private boolean playerDying = false ;
 
     public Playing(Game game) {
         super(game);
@@ -85,7 +86,11 @@ public class Playing extends State implements Statemethods {
             pausedOverlay.update();
         } else if (lvlCompleted) {
             levelCompletedOverlay.update();
-        } else if (!gameOver) {
+        }else if (gameOver){
+            //gameOverlay.update();
+        }else if(playerDying){
+            player.update();
+        } else{
             levelManager.update();
             player.update();
             objectManager.update(levelManager.getCurrentLevel().getLevelData(), player);
@@ -278,5 +283,9 @@ public class Playing extends State implements Statemethods {
 
     public void checkObjectHit(Rectangle2D.Float attackBox) {
         objectManager.checkObjectHit(attackBox);
+    }
+
+    public void setPlayerDying(boolean playerDying) {
+        this.playerDying = playerDying;
     }
 }
