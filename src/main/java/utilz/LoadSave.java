@@ -38,6 +38,8 @@ public class LoadSave {
     public static final String CONTAINER_ATLAS = "objects_sprites.png";
     public static final String CANNON_ATLAS = "cannon_sprites.png";
     public static final String CANNON_BALL = "ball.png";
+    public static final String DEATH_SCREEN = "death_screen.png";
+
 
     // New constant for the TMX file name
     public static final String TMX_LEVEL = "supermap2.tmx";

@@ -87,7 +87,7 @@ public class Playing extends State implements Statemethods {
         } else if (lvlCompleted) {
             levelCompletedOverlay.update();
         }else if (gameOver){
-            //gameOverlay.update();
+            gameOverOverlay.update();
         }else if(playerDying){
             player.update();
         } else{
@@ -150,6 +150,8 @@ public class Playing extends State implements Statemethods {
                 pausedOverlay.mousePressed(e);
             else if (lvlCompleted)
                 levelCompletedOverlay.mousePressed(e);
+        }else {
+            gameOverOverlay.mousePressed(e);
         }
     }
 
@@ -163,6 +165,8 @@ public class Playing extends State implements Statemethods {
                 pausedOverlay.mouseReleased(e);
             else if (lvlCompleted)
                 levelCompletedOverlay.mouseReleased(e);
+        }else {
+            gameOverOverlay.mouseReleased(e);
         }
 
     }
@@ -174,6 +178,8 @@ public class Playing extends State implements Statemethods {
                 pausedOverlay.mouseMoved(e);
             else if (lvlCompleted)
                 levelCompletedOverlay.mouseMoved(e);
+        }else {
+            gameOverOverlay.mouseMoved(e);
         }
 
     }
@@ -245,6 +251,7 @@ public class Playing extends State implements Statemethods {
         gameOver = false;
         paused = false;
         lvlCompleted = false;
+        playerDying = false ;
         player.resetAll();
         enemyManager.resetAllEnemies();
     }
