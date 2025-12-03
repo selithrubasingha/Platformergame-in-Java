@@ -5,6 +5,7 @@ package main;
 import gamestates.GameState;
 import gamestates.*;
 import gamestates.Menu;
+import ui.AudioOptions;
 
 
 import java.awt.*;
@@ -18,6 +19,8 @@ public class Game implements Runnable{
     private final int UPS_SET = 170;
     private Playing playing;
     private Menu menu;
+    private GameOptions gameOptions;
+    private AudioOptions audioOptions ;
 
 
 
@@ -42,8 +45,10 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
+        audioOptions = new AudioOptions();
         menu = new Menu(this);
         playing = new Playing(this);
+        gameOptions = new GameOptions(this);
 
     }
 
@@ -64,6 +69,8 @@ public class Game implements Runnable{
                 menu.update();
                 break;
             case OPTIONS:
+                gameOptions.update();
+                break;
             case QUIT:
             default:
                 System.exit(0);
@@ -80,6 +87,9 @@ public class Game implements Runnable{
             break;
         case MENU:
             menu.draw(g);
+            break;
+        case OPTIONS:
+            gameOptions.draw(g);
             break;
 
     }}
@@ -141,6 +151,14 @@ public class Game implements Runnable{
 
     public Playing getPlaying() {
         return playing;
+    }
+
+    public AudioOptions getAudioOptions(){
+        return audioOptions;
+    }
+
+    public GameOptions getGameOptions() {
+        return gameOptions;
     }
 }
 

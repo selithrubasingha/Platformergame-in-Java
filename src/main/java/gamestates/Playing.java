@@ -18,6 +18,7 @@ import static main.Game.*;
 
 public class Playing extends State implements Statemethods {
     private Player player;
+    private Game game;
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private ObjectManager objectManager;
@@ -37,6 +38,7 @@ public class Playing extends State implements Statemethods {
 
     public Playing(Game game) {
         super(game);
+        this.game = game;
         initClasses();
 
         loadStartLevel();
@@ -294,5 +296,9 @@ public class Playing extends State implements Statemethods {
 
     public void setPlayerDying(boolean playerDying) {
         this.playerDying = playerDying;
+    }
+
+    public Game getGame(){
+        return game;
     }
 }
