@@ -18,9 +18,11 @@ public class Menu extends State implements Statemethods{
     private int menuX, menuY, menuWidth, menuHeight;
     //why green though
     private BufferedImage backGroundImg_Green;
+    private Game game;
 
     public Menu(Game game){
         super(game);
+        this.game = game ;
         loadButtons();
         loadBackground();
         //oh my god it's the background image
@@ -100,6 +102,8 @@ public class Menu extends State implements Statemethods{
                 if (mb.isMousePressed())
                     //do what the heck the button does
                     mb.applyGamestate();
+                if (mb.getState() == GameState.PLAYING)
+                    game.getAudioPlayer().setLevelSong(game.getPlaying().getLevelManager().getLvlIndex());
                 break;
             }
         }

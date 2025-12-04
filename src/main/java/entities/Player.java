@@ -1,5 +1,6 @@
 package entities;
 
+import audio.AudioPlayer;
 import gamestates.Playing;
 import levels.LevelManager;
 import main.Game;
@@ -49,6 +50,14 @@ public class Player extends Entity {
     private int healthBarXStart = (int) (34 * Game.SCALE);
     private int healthBarYStart = (int) (14 * Game.SCALE);
 
+    private int powerBarWidth = (int) (104 * Game.SCALE);
+    private int powerBarHeight = (int) (2 * Game.SCALE);
+    private int powerBarXStart = (int) (44 * Game.SCALE);
+    private int powerBarYStart = (int) (34 * Game.SCALE);
+    private int powerWidth = powerBarWidth;
+    private int powerMaxValue = 200;
+    private int powerValue = powerMaxValue;
+
 
     private int healthWidth = healthBarWidth;
 
@@ -61,6 +70,11 @@ public class Player extends Entity {
     private Playing playing;
 
     private int tileY = 0;
+
+    private boolean powerAttackActive;
+    private int powerAttackTick;
+    private int powerGrowSpeed = 15;
+    private int powerGrowTick;
 
 
     
@@ -106,14 +120,18 @@ public class Player extends Entity {
 
     public void update() {
         updateHealthBar();
+        updatePowerBar();
         if (currentHealth <= 0) {
             if (state != DEAD) {
                 state = DEAD;
                 aniTick = 0;
                 aniIndex = 0;
                 playing.setPlayerDying(true);
+                playing.getGame().getAudioPlayer().playEffect(AudioPlayer.DIE);
             } else if (aniIndex == GetSpriteAmount(DEAD) - 1 && aniTick >= ANI_SPEED - 1) {
                 playing.setGameOver(true);
+                playing.getGame().getAudioPlayer().stopSong();
+                playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);
             } else
                 updateAnimationTick();
 
@@ -137,6 +155,24 @@ public class Player extends Entity {
 
     }
 
+    private void updatePowerBar() {
+        powerWidth = (int) ((powerValue / (float) powerMaxValue) * powerBarWidth);
+
+        powerGrowTick++;
+        if (powerGrowTick >= powerGrowSpeed) {
+            powerGrowTick = 0;
+            changePower(1);
+        }
+    }
+
+    private void changePower(int value) {
+        powerValue += value;
+        if (powerValue >= powerMaxValue)
+            powerValue = powerMaxValue;
+        else if (powerValue <= 0)
+            powerValue = 0;
+    }
+
     private void checkObjectTouched() {
         playing.checkObjectTouched(hitbox);
     }
@@ -147,6 +183,7 @@ public class Player extends Entity {
         attackChecked = true;
         playing.checkEnemyHit(attackBox);
         playing.checkObjectHit(attackBox);
+        playing.getGame().getAudioPlayer().playAttackSound();
 
     }
 
@@ -252,6 +289,7 @@ public class Player extends Entity {
         if (!inAir){
             inAir = true;
             airSpeed = jumpSpeed;
+            playing.getGame().getAudioPlayer().playEffect(AudioPlayer.JUMP);
         }else return;
     }
 

@@ -2,6 +2,7 @@ package main;
 
 
 
+import audio.AudioPlayer;
 import gamestates.GameState;
 import gamestates.*;
 import gamestates.Menu;
@@ -21,6 +22,7 @@ public class Game implements Runnable{
     private Menu menu;
     private GameOptions gameOptions;
     private AudioOptions audioOptions ;
+    private AudioPlayer audioPlayer;
 
 
 
@@ -45,7 +47,8 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
-        audioOptions = new AudioOptions();
+        audioOptions = new AudioOptions(this);
+        audioPlayer = new AudioPlayer();
         menu = new Menu(this);
         playing = new Playing(this);
         gameOptions = new GameOptions(this);
@@ -159,6 +162,10 @@ public class Game implements Runnable{
 
     public GameOptions getGameOptions() {
         return gameOptions;
+    }
+
+    public AudioPlayer getAudioPlayer() {
+        return audioPlayer;
     }
 }
 

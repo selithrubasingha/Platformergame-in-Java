@@ -129,7 +129,7 @@ public class Level {
         return containers;
     }
 
-    public static ArrayList<Cannon> GetCannons(int lvlIndex) {
+    public  ArrayList<Cannon> GetCannons(int lvlIndex) {
         ArrayList<Cannon> cannons = new ArrayList<>();
         // Data format: [x1, y1, type1, x2, y2, type2, ...]
         ArrayList<Float> cannonData = GetCannonSpawnsFromTMX(
@@ -144,7 +144,7 @@ public class Level {
             int type = cannonData.get(i + 2).intValue(); // Convert Float to int for type
 
             // Cannon constructor takes (x, y, objType)
-            cannons.add(new Cannon((int) x, (int) y, type));
+            cannons.add(new Cannon((int) x, (int) y, type, this));
         }
         return cannons;
     }

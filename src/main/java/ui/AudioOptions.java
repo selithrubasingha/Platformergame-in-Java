@@ -14,8 +14,10 @@ public class AudioOptions {
 
     private VolumeButton volumeButton;
     private SoundButton musicButton, sfxButton;
+    private Game game;
 
-    public AudioOptions() {
+    public AudioOptions(Game game) {
+        this.game = game;
         createSoundButtons();
         createVolumeButton();
     }
@@ -52,15 +54,23 @@ public class AudioOptions {
 
     public void mouseDragged(MouseEvent e) {
         if (volumeButton.isMousePressed()) {
+            float valueBefore = volumeButton.getFloatValue();
             volumeButton.changeX(e.getX());
+            float valueAfter = volumeButton.getFloatValue();
+            if(valueBefore != valueAfter)
+                game.getAudioPlayer().setVolume(valueAfter);
         }
     }
 
     public void mousePressed(MouseEvent e) {
-        if (isIn(e, musicButton))
+        if (isIn(e, musicButton)) {
             musicButton.setMousePressed(true);
-        else if (isIn(e, sfxButton))
+            game.getAudioPlayer().toggleSongMute();
+        }
+        else if (isIn(e, sfxButton)) {
             sfxButton.setMousePressed(true);
+            game.getAudioPlayer().toggleEffectMute();
+        }
         else if (isIn(e, volumeButton))
             volumeButton.setMousePressed(true);
     }

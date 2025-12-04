@@ -1,5 +1,6 @@
 package gamestates;
 
+import audio.AudioPlayer;
 import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
@@ -165,8 +166,10 @@ public class Playing extends State implements Statemethods {
         if (!gameOver) {
             if (paused)
                 pausedOverlay.mouseReleased(e);
-            else if (lvlCompleted)
+            else if (lvlCompleted){
                 levelCompletedOverlay.mouseReleased(e);
+
+            }
         }else {
             gameOverOverlay.mouseReleased(e);
         }
@@ -276,6 +279,11 @@ public class Playing extends State implements Statemethods {
 
     public void setLevelCompleted(boolean levelCompleted) {
         this.lvlCompleted = levelCompleted;
+
+        if (levelCompleted==true){
+            game.getAudioPlayer().stopSong();
+            game.getAudioPlayer().playEffect(AudioPlayer.LVL_COMPLETED);
+        }
     }
 
     public ObjectManager getObjectManager() {
