@@ -210,6 +210,9 @@ public class Playing extends State implements Statemethods {
                 case KeyEvent.VK_ESCAPE:
                     paused = !paused;
                     break;
+                case KeyEvent.VK_Q:
+                    player.powerAttack();
+                    break;
 
             }
 
@@ -309,4 +312,10 @@ public class Playing extends State implements Statemethods {
     public Game getGame(){
         return game;
     }
+
+    public void checkPotionTouched(Rectangle2D.Float hitbox) {
+        objectManager.checkObjectTouched(hitbox);
+    }
+
+
 }
