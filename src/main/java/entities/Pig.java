@@ -111,4 +111,7 @@ public class Pig extends Enemy {
     }
 
 
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
 }

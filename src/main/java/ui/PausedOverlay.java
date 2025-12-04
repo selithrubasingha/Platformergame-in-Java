@@ -123,6 +123,7 @@ public class PausedOverlay  {
             if (menuB.isMousePressed()) {
                 //go to menu !
                 playing.setGamestate(GameState.MENU);
+                playing.resetAll();
             }
         } else if (isIn(e, replayB)) {
             if (replayB.isMousePressed()) {
