@@ -12,7 +12,7 @@ public class Projectile {
     private boolean active = true;
 
     public Projectile(int x, int y, int dir) {
-        int xOffset = (int) (7 * Game.SCALE);
+        int xOffset = (int) (-33 * Game.SCALE);
         int yOffset = (int) (5 * Game.SCALE);
 
         if (dir == 1)

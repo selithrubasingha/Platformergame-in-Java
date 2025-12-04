@@ -10,6 +10,8 @@ import gamestates.Playing;
 import levels.Level;
 import main.Game;
 import utilz.LoadSave;
+
+import static main.Game.SCALE;
 import static utilz.Constants.ObjectConstants.*; // Imports new constants
 import static utilz.Constants.Projectiles.CANNON_BALL_HEIGHT;
 import static utilz.Constants.Projectiles.CANNON_BALL_WIDTH;
@@ -200,9 +202,10 @@ public class ObjectManager {
             int width = CANNON_WIDTH;
 
             if (c.getObjType() == CANNON_RIGHT) {
-                x += width;
+                x += width-(20* SCALE);
                 width *= -1;
-            }
+            }else
+                x -= 40* SCALE;
 
             g.drawImage(cannonImgs[c.getAniIndex()], x, (int) (c.getHitbox().y), width, CANNON_HEIGHT, null);
         }
