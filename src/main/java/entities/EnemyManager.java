@@ -47,13 +47,13 @@ public class EnemyManager {
                         PIG_WIDTH*c.flipW(),
                         PIG_HEIGHT,
                         null);
-                c.drawHitbox(g, xLvlOffset);
-                c.drawAttackBox(g, xLvlOffset);
+//                c.drawHitbox(g, xLvlOffset);
+//                c.drawAttackBox(g, xLvlOffset);
 
             }
 
-            c.drawHitbox(g, xLvlOffset);
-            c.drawAttackBox(g, xLvlOffset);
+//            c.drawHitbox(g, xLvlOffset);
+//            c.drawAttackBox(g, xLvlOffset);
         }
 
 
