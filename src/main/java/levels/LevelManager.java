@@ -53,11 +53,14 @@ public class LevelManager {
             // The Level constructor uses the BufferedImage from the array and the TMX path string
             levels.add(new Level(
                     LoadSave.GetLevelDataFromTMX(
-                            tmxFilePath, // Replaces LoadSave.TMX_LEVEL
+                            tmxFilePath,
                             COLLISION_LAYER_NAME,
                             TILES_IN_WIDTH + 20,
                             TILES_IN_HEIGHT
-                    ),lvlIndex,allLevels[i]
+                    ),
+                    i,  // ← Change lvlIndex to i
+                    allLevels[i]
+
             ));
         }
 

@@ -53,6 +53,7 @@ I implemented:
 - **Classes** — reusable for UI, entities, levels
 - **Interfaces** — clean contracts for logic components 
 - **Enums** — handling game states 
+- **Tiled** — using Tiled Map Editor for level design
 
 ### 🧩 Object-Oriented Programming
 
